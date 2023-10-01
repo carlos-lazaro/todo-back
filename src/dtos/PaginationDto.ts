@@ -4,9 +4,9 @@ export class PaginationDto {
   readonly page;
   readonly limit;
 
-  constructor(dependencies?: { page?: number; limit?: number }) {
-    this.page = dependencies?.page ?? 1;
-    this.limit = dependencies?.limit ?? 10;
+  constructor(dependencies?: { page?: string; limit?: string }) {
+    this.page = dependencies?.page ? Number(dependencies.page) : 1;
+    this.limit = dependencies?.limit ? Number(dependencies.limit) : 1;
   }
 
   mongoosePipeline() {
