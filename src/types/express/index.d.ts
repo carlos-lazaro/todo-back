@@ -10,8 +10,8 @@ declare global {
 
 declare module "qs" {
   interface ParsedQs {
-    page?: number | undefined;
-    limit?: number | undefined;
+    page?: number;
+    limit?: number;
   }
 }
 export {};
