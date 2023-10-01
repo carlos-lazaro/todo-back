@@ -1,19 +1,23 @@
 import { NextFunction, Request, Response } from "express";
 
 import { TodoDto } from "../../dtos";
+import { getUserOrThrowError } from "../../helper";
 import { todoService } from "../todo-service";
 
 export async function todoUpdate(
   req: Request,
   res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction,
 ) {
-  console.log("todoUpdate");
-  const todoDto = new TodoDto(req.body);
-  const id = req.params.id;
-  console.log("todoUpdate", id);
+  const user = getUserOrThrowError(req);
 
-  const todo = await todoService.update(id, todoDto);
+  const todoDto = new TodoDto(req.body);
+  todoDto.userId = user.id;
+
+  const id = req.params.id;
+
+  const todo = await todoService.update({ _id: id, userId: user.id }, todoDto);
 
   res.status(200).send({ todo });
 }

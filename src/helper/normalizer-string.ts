@@ -1,4 +1,4 @@
-export function normalizerString(input?: string): string {
+function normalizerString(input?: string): string {
   if (!input) return "";
   // Reemplaza los caracteres acentuados por sus equivalentes sin acentos
   const normalized = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -11,3 +11,4 @@ export function normalizerString(input?: string): string {
 
   return finalString;
 }
+export { normalizerString };

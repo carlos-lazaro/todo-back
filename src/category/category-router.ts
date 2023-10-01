@@ -1,12 +1,16 @@
 import express from "express";
 
-import { CategoryDto, IdDto, PaginationDto } from "../dtos";
+import { CategoryDto, IdDto } from "../dtos";
 import { partialSchema } from "../helper";
-import { catchAsyncErrors, schemaValidation } from "../middlewares";
+import {
+  catchAsyncErrors,
+  checkJsonwebtokenMiddleware,
+  schemaValidation,
+} from "../middlewares";
 import {
   categoryCreate,
   categoryDelete,
-  categoryGetAll,
+  categoryGetAllByUser,
   categoryGetById,
   categoryUpdate,
 } from "./controllers";
@@ -14,19 +18,21 @@ import {
 const categoryRouter = express.Router();
 
 categoryRouter.get(
-  "/categories",
-  schemaValidation({ query: PaginationDto.Schema() }),
-  catchAsyncErrors(categoryGetAll),
+  "/categories/user",
+  checkJsonwebtokenMiddleware,
+  catchAsyncErrors(categoryGetAllByUser),
 );
 
 categoryRouter.get(
   "/categories/:id",
+  checkJsonwebtokenMiddleware,
   schemaValidation({ params: IdDto.Schema() }),
   catchAsyncErrors(categoryGetById),
 );
 
 categoryRouter.post(
   "/categories",
+  checkJsonwebtokenMiddleware,
   schemaValidation({
     body: partialSchema(CategoryDto.Schema()).options({ allowUnknown: true }),
   }),
@@ -35,6 +41,7 @@ categoryRouter.post(
 
 categoryRouter.patch(
   "/categories/:id",
+  checkJsonwebtokenMiddleware,
   schemaValidation({
     body: partialSchema(CategoryDto.Schema()).options({ allowUnknown: true }),
     params: IdDto.Schema(),
@@ -44,6 +51,7 @@ categoryRouter.patch(
 
 categoryRouter.delete(
   "/categories/:id",
+  checkJsonwebtokenMiddleware,
   schemaValidation({ params: IdDto.Schema() }),
   catchAsyncErrors(categoryDelete),
 );

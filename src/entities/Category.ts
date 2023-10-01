@@ -1,12 +1,17 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
 interface Category extends Document {
+  userId: string;
   title: string;
   description?: string;
-  createdAt: Date;
+  createdAt?: Date;
 }
 
 const categorySchema: Schema = new Schema({
+  userId: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -14,6 +19,10 @@ const categorySchema: Schema = new Schema({
   description: {
     type: String,
     default: "",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

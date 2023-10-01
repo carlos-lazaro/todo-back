@@ -1,51 +1,47 @@
-import { CategoryDto, PaginationDto } from "../dtos";
-import { CategoryModel, CategoryModelType } from "../entities";
+import { RootQuerySelector } from "mongoose";
+
+import { CategoryDto } from "../dtos";
+import { Category } from "../entities";
+import { CategoryRepository, categoryRepository } from "./category-repository";
 
 class CategoryService {
-  model: CategoryModelType;
+  categoryRepository: CategoryRepository;
 
-  constructor(model: CategoryModelType) {
-    this.model = model;
+  constructor(repository: CategoryRepository) {
+    this.categoryRepository = repository;
   }
 
-  async getById(id: string) {
-    const category = await this.model.findOne({ _id: id });
+  async getOne(filter: RootQuerySelector<Category>) {
+    const category = await this.categoryRepository.getOne(filter);
 
     return category;
   }
 
-  async getAll(id: string, paginationDto: PaginationDto) {
-    const categorys = await this.model
-      .find({})
-      .skip((paginationDto.page - 1) * paginationDto.limit)
-      .limit(paginationDto.limit)
-      .exec();
+  async getAll(filter: RootQuerySelector<Category>) {
+    const category = await this.categoryRepository.getAll(filter);
 
-    return categorys;
+    return category;
   }
 
   async create(categoryDto: CategoryDto) {
-    const category = await this.model.create(categoryDto);
+    const category = await this.categoryRepository.create(categoryDto);
 
     return category;
   }
 
-  async update(id: string, categoryDto: CategoryDto) {
-    const category = await this.model.findOneAndUpdate(
-      { _id: id },
-      categoryDto,
-    );
+  async update(filter: RootQuerySelector<Category>, categoryDto: CategoryDto) {
+    const category = await this.categoryRepository.update(filter, categoryDto);
 
     return category;
   }
 
-  async delete(id: string) {
-    const { deletedCount } = await this.model.deleteOne({ _id: id });
+  async delete(filter: RootQuerySelector<Category>) {
+    const deletedCount = await this.categoryRepository.delete(filter);
 
     return deletedCount;
   }
 }
 
-const categoryService = new CategoryService(CategoryModel);
+const categoryService = new CategoryService(categoryRepository);
 
 export { categoryService };

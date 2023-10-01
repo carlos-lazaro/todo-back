@@ -1,67 +1,64 @@
-import { UserDto, UserLoginDto } from "../dtos";
-import { Todo, UserModel, UserModelType } from "../entities";
-import { comparatePasswordHash, generatePasswordHash } from "../helper";
+import { UserJsonwebtokenPayload, UserSinginDto, UserSingupDto } from "../dtos";
+import {
+  comparatePasswordHash,
+  generateJsonwebtoken,
+  generatePasswordHash,
+} from "../helper";
+import { UserRepository, userRepository } from "./user-repository";
 
 class UserService {
-  model: UserModelType;
+  userRepository: UserRepository;
 
-  constructor(model: UserModelType) {
-    this.model = model;
+  constructor(repository: UserRepository) {
+    this.userRepository = repository;
   }
 
-  async singin(userLoginDto: UserLoginDto) {
-    const user = await this.model.findOne({ email: userLoginDto.email });
-    const isValid = await comparatePasswordHash(
-      userLoginDto?.password || "",
-      user?.password || "-1",
-    );
+  async singin(userLoginDto: UserSinginDto) {
+    const user = await this.userRepository.getOne({
+      email: userLoginDto.email,
+    });
 
-    return isValid ? user : null;
-  }
-
-  async getById(id: string) {
-    const user = await this.model.findOne({ _id: id });
-
-    return user;
-  }
-
-  async create(userDto: UserDto) {
-    if (!userDto?.password) return null;
-    userDto.password = await generatePasswordHash(userDto?.password);
-
-    const user = await this.model.create(userDto);
-    return user;
-  }
-
-  async update(id: string, userDto: UserDto) {
-    const user = await this.model.findOneAndUpdate({ _id: id }, userDto);
-
-    return user;
-  }
-
-  async delete(id: string) {
-    const { deletedCount } = await this.model.deleteOne({ _id: id });
-
-    return deletedCount;
-  }
-
-  async updateCommonTodos(todo: Todo) {
-    const user = await this.getById(todo.user);
-
-    let commonTodo = user?.commonTodos.find(
-      commonTodo => commonTodo.title === todo.title,
-    );
-
-    if (!commonTodo) {
-      commonTodo = { title: todo.title, quantity: 0 };
+    if (!user) {
+      return null;
     }
 
-    commonTodo.quantity++;
+    const isValid = await comparatePasswordHash(
+      userLoginDto?.password ?? "",
+      user?.password ?? "-1",
+    );
 
-    return true;
+    if (!isValid) {
+      return null;
+    }
+
+    const userJWT = new UserJsonwebtokenPayload(user);
+
+    const token = generateJsonwebtoken(userJWT);
+
+    return { user: userJWT, token };
+  }
+
+  async singup(userSingupDto: UserSingupDto) {
+    if (!userSingupDto || !userSingupDto?.password) return null;
+
+    userSingupDto.password = await generatePasswordHash(
+      userSingupDto?.password,
+    );
+
+    const user = await this.userRepository.create(userSingupDto);
+
+    if (!user) {
+      return null;
+    }
+
+    const userJWT = new UserJsonwebtokenPayload(user);
+
+    const token = generateJsonwebtoken(userJWT);
+
+    return { user: userJWT, token };
   }
 }
 
-const userService = new UserService(UserModel);
+const userService = new UserService(userRepository);
 
 export { userService };
