@@ -1,4 +1,8 @@
-import { UserJsonwebtokenPayload, UserSinginDto, UserSingupDto } from "../dtos";
+import {
+  UserJsonwebtokenPayloadDto,
+  UserSinginDto,
+  UserSingupDto,
+} from "../dtos";
 import {
   comparatePasswordHash,
   generateJsonwebtoken,
@@ -31,7 +35,7 @@ class UserService {
       return null;
     }
 
-    const userJWT = new UserJsonwebtokenPayload(user);
+    const userJWT = new UserJsonwebtokenPayloadDto(user);
 
     const token = generateJsonwebtoken(userJWT);
 
@@ -51,7 +55,7 @@ class UserService {
       return null;
     }
 
-    const userJWT = new UserJsonwebtokenPayload(user);
+    const userJWT = new UserJsonwebtokenPayloadDto(user);
 
     const token = generateJsonwebtoken(userJWT);
 

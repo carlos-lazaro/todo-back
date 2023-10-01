@@ -1,6 +1,6 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-import { CategoryReference } from "./Category";
+import { CategoryReference } from "./category-entity";
 
 interface Todo extends Document {
   userId: string;

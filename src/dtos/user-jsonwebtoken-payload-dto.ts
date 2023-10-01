@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
 
-export class UserJsonwebtokenPayload {
+export class UserJsonwebtokenPayloadDto {
   id: string | undefined;
   name: string | undefined;
   email: string | undefined;
