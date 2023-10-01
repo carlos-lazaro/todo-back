@@ -1,9 +1,12 @@
 import express from "express";
 
-import { IdDto, IdUserCategoryDto, PaginationDto, TodoDto } from "../dtos";
-import { TimeIntevalDto } from "../dtos/TimeIntevalDto";
+import { IdDto, PaginationDto, TimeIntevalDto, TodoDto } from "../dtos";
 import { partialSchema } from "../helper";
-import { catchAsyncErrors, schemaValidation } from "../middlewares";
+import {
+  catchAsyncErrors,
+  checkJsonwebtokenMiddleware,
+  schemaValidation,
+} from "../middlewares";
 import {
   todoCreate,
   todoDelete,
@@ -11,53 +14,47 @@ import {
   todoGetByUser,
   todoGetByUserCategory,
   todoGetCountByTitle,
-  todoGetInIntervalTime,
   todoUpdate,
 } from "./controllers";
 
 const todoRouter = express.Router();
 
 todoRouter.get(
-  "/todos/:id",
-  schemaValidation({ params: IdDto.Schema() }),
-  catchAsyncErrors(todoGetById),
-);
-
-todoRouter.get(
-  "/todos/users/:id",
-  schemaValidation({ query: PaginationDto.Schema(), params: IdDto.Schema() }),
+  "/todos/user",
+  checkJsonwebtokenMiddleware,
+  schemaValidation({ query: PaginationDto.Schema() }),
   catchAsyncErrors(todoGetByUser),
 );
 
 todoRouter.get(
-  "/todos/users/:iduser/categories/:idcategory",
+  "/todos/user/words",
+  checkJsonwebtokenMiddleware,
   schemaValidation({
-    query: PaginationDto.Schema(),
-    params: IdUserCategoryDto.Schema(),
-  }),
-  catchAsyncErrors(todoGetByUserCategory),
-);
-
-todoRouter.get(
-  "/todos/users/:id/group/title",
-  schemaValidation({
-    query: PaginationDto.Schema(),
-    params: IdDto.Schema(),
+    query: TimeIntevalDto.Schema(),
   }),
   catchAsyncErrors(todoGetCountByTitle),
 );
 
 todoRouter.get(
-  "/todos/users/:id/words/interval",
+  "/todos/category/:idcategory",
+  checkJsonwebtokenMiddleware,
   schemaValidation({
-    query: TimeIntevalDto.Schema(),
-    params: IdDto.Schema(),
+    query: PaginationDto.Schema(),
+    params: IdDto.Schema("idcategory"),
   }),
-  catchAsyncErrors(todoGetInIntervalTime),
+  catchAsyncErrors(todoGetByUserCategory),
+);
+
+todoRouter.get(
+  "/todos/:id",
+  checkJsonwebtokenMiddleware,
+  schemaValidation({ params: IdDto.Schema() }),
+  catchAsyncErrors(todoGetById),
 );
 
 todoRouter.post(
   "/todos",
+  checkJsonwebtokenMiddleware,
   schemaValidation({
     body: partialSchema(TodoDto.Schema()).options({ allowUnknown: true }),
   }),
@@ -66,6 +63,7 @@ todoRouter.post(
 
 todoRouter.patch(
   "/todos/:id",
+  checkJsonwebtokenMiddleware,
   schemaValidation({
     body: partialSchema(TodoDto.Schema()).options({ allowUnknown: true }),
     params: IdDto.Schema(),
@@ -75,6 +73,7 @@ todoRouter.patch(
 
 todoRouter.delete(
   "/todos/:id",
+  checkJsonwebtokenMiddleware,
   schemaValidation({ params: IdDto.Schema() }),
   catchAsyncErrors(todoDelete),
 );

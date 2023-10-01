@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export class TodoDto {
-  user: string | undefined;
+  userId: string | undefined;
   title: string | undefined;
   description: string | undefined;
   status: number | undefined;
@@ -9,14 +9,14 @@ export class TodoDto {
   categories: string[] | undefined;
 
   constructor(dependencies: {
-    user: string;
+    userId: string;
     title: string;
     description: string;
     status: string;
     words: string[];
     categories: string[];
   }) {
-    dependencies.user && (this.user = dependencies.user);
+    dependencies.userId && (this.userId = dependencies.userId);
     dependencies.title && (this.title = dependencies.title);
     dependencies.description && (this.description = dependencies.description);
     dependencies.status && (this.status = Number(dependencies.status));
@@ -26,7 +26,7 @@ export class TodoDto {
 
   public static Schema() {
     return Joi.object({
-      user: Joi.string().trim().required(),
+      userId: Joi.string().trim().allow("").optional(),
       title: Joi.string().trim().required(),
       description: Joi.string().allow("").optional(),
       status: Joi.number().positive().optional(),

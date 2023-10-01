@@ -1,17 +1,10 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-import { TodoReference } from "./Todo";
-
 interface User extends Document {
   name: string;
   email: string;
-  password: string;
-  commonTodos: [
-    {
-      title: string;
-      quantity: number;
-    },
-  ];
+  password?: string;
+  createdAt?: string;
 }
 
 const todoSchema: Schema = new Schema({
@@ -28,12 +21,10 @@ const todoSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  commonTodos: [
-    {
-      title: String,
-      quantity: Number,
-    },
-  ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const UserReference = "User";

@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 
-import { UserSinginDto } from "../../dtos";
+import { UserSingupDto } from "../../dtos";
 import { userService } from "../user-service";
 
-export async function userSignin(
+export async function userSignup(
   req: Request,
   res: Response,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction,
 ) {
-  const userSinginDto = new UserSinginDto(req.body);
+  const userSingupDto = new UserSingupDto(req.body);
 
-  const response = await userService.singin(userSinginDto);
+  const response = await userService.singup(userSingupDto);
 
-  res.status(200).send({ data: response });
+  res.status(201).send({ data: response });
 }

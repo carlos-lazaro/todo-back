@@ -13,11 +13,21 @@
 				{
 					"name": "create",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"Eat\",\n  \"description\": \"description\"\n}\n",
+							"raw": "{\n  \"title\": \"title4\",\n  \"description\": \"description\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -25,14 +35,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/categories",
+							"raw": "{{url}}/categories",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"categories"
 							]
 						}
@@ -42,11 +49,21 @@
 				{
 					"name": "update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"title5\",\n  \"description\": \"description\"\n}\n",
+							"raw": "{\n  \"title\": \"title3\",\n  \"description\": \"description\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -54,16 +71,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/categories/64f94de09efb9d8703bf941e",
+							"raw": "{{url}}/categories/65195879d29ee321c3c40fe4",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"categories",
-								"64f94de09efb9d8703bf941e"
+								"65195879d29ee321c3c40fe4"
 							]
 						}
 					},
@@ -72,6 +86,16 @@
 				{
 					"name": "delete",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -84,16 +108,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/categories/64f94de09efb9d8703bf941e",
+							"raw": "{{url}}/categories/6519587cd29ee321c3c40fe6",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"categories",
-								"64f94de09efb9d8703bf941e"
+								"6519587cd29ee321c3c40fe6"
 							]
 						}
 					},
@@ -105,6 +126,16 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -117,27 +148,34 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/categories/64f94ed03f4e15835bea8d86",
+							"raw": "{{url}}/categories/6519587cd29ee321c3c40fe6",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"categories",
-								"64f94ed03f4e15835bea8d86"
+								"6519587cd29ee321c3c40fe6"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "get all",
+					"name": "get all by user",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -150,25 +188,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/categories?page=1&limit=10",
+							"raw": "{{url}}/categories/user",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
-								"categories"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "10"
-								}
+								"categories",
+								"user"
 							]
 						}
 					},
@@ -180,132 +206,38 @@
 			"name": "user",
 			"item": [
 				{
-					"name": "create",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"name\",\n  \"email\": \"email@email.com\",\n  \"password\": \"123123\"\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/api/v1/users",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"name\",\n  \"email\": \"email@email.com\",\n  \"password\": \"123123\"\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/api/v1/users/64f962cff67c8c47c8378cf3",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"64f962cff67c8c47c8378cf3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/api/v1/users/64f962cff67c8c47c8378cf3",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"64f962cff67c8c47c8378cf3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get one",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/api/v1/users/64f962cff67c8c47c8378cf3",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"64f962cff67c8c47c8378cf3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "singin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var {data} = pm.response.json();",
+									"",
+									"pm.environment.set(\"token\", data.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "x-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiNjUwNjYwMmZjMjBlODgwMDUzZTA2NmNiIiwibmFtZSI6Im5hbWUiLCJlbWFpbCI6ImVtYWlsQGVtYWlsLmNvbSJ9LCJpYXQiOjE2OTUwMDE1MjgsImV4cCI6MTY5NTA0NDcyOH0.r4FU5vWl99vXogOujNIzTwtnCfXkbrt0HK8ufJUc44A",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"email\": \"email@email.com\",\n  \"password\": \"123123\"\n}\n",
@@ -316,16 +248,53 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/users/singin",
+							"raw": "{{url}}/users/singin",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"users",
 								"singin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "singup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var {data} = pm.response.json();",
+									"",
+									"pm.environment.set(\"token\", data.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"name\",\n  \"email\": \"email@email.com\",\n  \"password\": \"123123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/singup",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"singup"
 							]
 						}
 					},
@@ -342,11 +311,21 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"user\": \"user2\",\n  \"title\": \"title5\",\n  \"description\": \"description\"\n}\n",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -354,16 +333,13 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/todos/64f9413610a0e030c72c40ce",
+							"raw": "{{url}}/todos/651967cb15026133ca948f66",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"todos",
-								"64f9413610a0e030c72c40ce"
+								"651967cb15026133ca948f66"
 							]
 						}
 					},
@@ -375,11 +351,21 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"user\": \"user\",\n  \"title\": \"title\",\n  \"description\": \"description\"\n}\n",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -387,26 +373,24 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/todos/users/user2?page=4&limit=2",
+							"raw": "{{url}}/todos/user",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"todos",
-								"users",
-								"user2"
+								"user"
 							],
 							"query": [
 								{
 									"key": "page",
-									"value": "4"
+									"value": "4",
+									"disabled": true
 								},
 								{
 									"key": "limit",
-									"value": "2"
+									"value": "2",
+									"disabled": true
 								}
 							]
 						}
@@ -419,6 +403,16 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -431,19 +425,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/todos/users/user2/group/title",
+							"raw": "{{url}}/todos/user/words",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"todos",
-								"users",
-								"user2",
-								"group",
-								"title"
+								"user",
+								"words"
 							]
 						}
 					},
@@ -455,6 +444,16 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -467,19 +466,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/todos/users/user2/categories/64f94ed03f4e15835bea8d86",
+							"raw": "{{url}}/todos/category/65195873d29ee321c3c40fe0",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"todos",
-								"users",
-								"user2",
-								"categories",
-								"64f94ed03f4e15835bea8d86"
+								"category",
+								"65195873d29ee321c3c40fe0"
 							]
 						}
 					},
@@ -534,11 +528,21 @@
 				{
 					"name": "create",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"user\": \"64f964e55fdfc82fa4c82a3f\",\n  \"title\": \"1231d1d1dcsdfsd sd df v\",\n  \"description\": \"description1\",\n  \"categories\":[\"64f94ed03f4e15835bea8d86\"]\n}\n",
+							"raw": "{\n  \"title\": \"title1\",\n  \"description\": \"description\",\n  \"categories\":[\"65195873d29ee321c3c40fe0\"]\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -546,14 +550,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/todos",
+							"raw": "{{url}}/todos",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"todos"
 							]
 						}
@@ -563,6 +564,16 @@
 				{
 					"name": "update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
@@ -575,14 +586,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/todos/64f9413610a0e030c72c40ce",
+							"raw": "{{url}}/todos/64f9413610a0e030c72c40ce",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"todos",
 								"64f9413610a0e030c72c40ce"
 							]
@@ -593,6 +601,16 @@
 				{
 					"name": "delete",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -605,14 +623,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/api/v1/todos/64f9275cb0288e530c440a8e",
+							"raw": "{{url}}/todos/64f9275cb0288e530c440a8e",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"todos",
 								"64f9275cb0288e530c440a8e"
 							]

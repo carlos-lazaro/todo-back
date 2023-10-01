@@ -1,18 +1,18 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-import { CategoryReference } from "./Category";
+import { CategoryReference } from "./category-entity";
 
 interface Todo extends Document {
-  user: string;
+  userId: string;
   title: string;
   description?: string;
   status?: number;
-  words?: string[];
-  createdAt?: Date;
+  categories?: string[];
+  createdAt?: string;
 }
 
 const todoSchema: Schema = new Schema({
-  user: {
+  userId: {
     type: String,
     required: true,
   },
@@ -28,7 +28,6 @@ const todoSchema: Schema = new Schema({
     type: Number,
     default: 10,
   },
-  words: [String],
   categories: [
     {
       type: Schema.Types.ObjectId,

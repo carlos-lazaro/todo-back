@@ -1,3 +1,3 @@
-export * from "./Category";
-export * from "./Todo";
-export * from "./User";
+export * from "./category-entity";
+export * from "./todo-entity";
+export * from "./user-entity";

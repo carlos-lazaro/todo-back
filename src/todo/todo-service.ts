@@ -1,145 +1,81 @@
-import { PaginationDto, TimeIntevalDto, TodoDto } from "../dtos";
-import { TodoModel, TodoModelType } from "../entities";
-import { normalizerString } from "../helper";
+import { PipelineStage, RootQuerySelector } from "mongoose";
+
+import { PaginationDto, TodoDto } from "../dtos";
+import { Todo } from "../entities";
+import { TodoRepository, todoRepository } from "./todo-repository";
 
 class TodoService {
-  model: TodoModelType;
+  todoRepository: TodoRepository;
 
-  constructor(model: TodoModelType) {
-    this.model = model;
+  constructor(repository: TodoRepository) {
+    this.todoRepository = repository;
   }
 
-  async getById(id: string) {
-    console.log("getById", id);
-    const todo = await this.model
-      .findOne({ _id: id })
+  async getOne(filter: RootQuerySelector<Todo>) {
+    const todo = await this.todoRepository.model
+      .findOne(filter)
       .populate("categories")
       .exec();
 
     return todo;
   }
 
-  async getByUser(id: string, paginationDto: PaginationDto) {
-    console.log("getByUser", id);
-    console.log("getByUser", paginationDto);
-    const todos = await this.model
-      .find({ user: id })
+  async getAll(filter: RootQuerySelector<Todo>) {
+    const todo = await this.todoRepository.model
+      .find(filter)
       .populate("categories")
-      .skip((paginationDto.page - 1) * paginationDto.limit)
-      .limit(paginationDto.limit)
       .exec();
 
-    return todos;
+    return todo;
   }
 
-  async getByUserCategory(
-    idUser: string,
-    idCategory: string,
+  async getPage(
+    filter: RootQuerySelector<Todo>,
     paginationDto: PaginationDto,
-  ) {
-    console.log("getByCategory", paginationDto);
-    const todos = await this.model
-      .find({ user: idUser, categories: { $in: idCategory } })
-      .populate("categories")
-      .skip((paginationDto.page - 1) * paginationDto.limit)
-      .limit(paginationDto.limit)
-      .exec();
+    extraPipeline: PipelineStage[] = [],
+  ): Promise<{ count: number; items: Todo[] }> {
+    const data = await todoRepository.getPage(
+      filter,
+      paginationDto,
+      extraPipeline,
+    );
 
-    return todos;
+    return data;
   }
 
-  async getGroupByTitle(id: string, paginationDto: PaginationDto) {
-    console.log("getCountByTitle", paginationDto);
-    const todos = await this.model
-      .aggregate([
-        {
-          $match: {
-            user: id,
-          },
-        },
-        {
-          $group: {
-            _id: "$title",
-            count: { $sum: 1 },
-          },
-        },
-        {
-          $sort: { count: -1 },
-        },
-      ])
-      .skip((paginationDto.page - 1) * paginationDto.limit)
-      .limit(paginationDto.limit)
-      .exec();
+  async getPageCountByTitle(
+    filter: RootQuerySelector<Todo>,
+    paginationDto: PaginationDto,
+    extraPipeline: PipelineStage[] = [],
+  ): Promise<{ count: number; items: Todo[] }> {
+    const data = await this.todoRepository.getPageCountByTitle(
+      filter,
+      paginationDto,
+      extraPipeline,
+    );
 
-    return todos;
-  }
-
-  async getInTimeInterval(timeIntevalDto: TimeIntevalDto, id: string) {
-    console.log("getInTimeInterval", timeIntevalDto);
-    const todos = await this.model
-      .aggregate([
-        {
-          $match: {
-            user: id,
-            // createdAt: {
-            //   $gte: new Date(timeIntevalDto.startDate),
-            //   $lte: new Date(timeIntevalDto.endDate),
-            // },
-          },
-        },
-        {
-          $project: {
-            words: {
-              $split: ["$title", " "],
-            },
-          },
-        },
-        {
-          $unwind: "$words",
-        },
-        {
-          $group: {
-            _id: "$words",
-            count: { $sum: 1 },
-          },
-        },
-        {
-          $sort: { count: -1 },
-        },
-        {
-          $limit: 10,
-        },
-      ])
-      .exec();
-
-    return todos;
+    return data;
   }
 
   async create(todoDto: TodoDto) {
-    console.log("TodoService.create", todoDto);
-
-    todoDto.words = normalizerString(todoDto.title).split(" ");
-
-    const todo = await this.model.create(todoDto);
+    const todo = await this.todoRepository.create(todoDto);
 
     return todo;
   }
 
-  async update(id: string, todoDto: TodoDto) {
-    todoDto.words = normalizerString(todoDto.title).split(" ");
-
-    const todo = await this.model.findOneAndUpdate({ _id: id }, todoDto);
+  async update(filter: RootQuerySelector<Todo>, todoDto: TodoDto) {
+    const todo = await this.todoRepository.update(filter, todoDto);
 
     return todo;
   }
 
-  async delete(id: string) {
-    const { deletedCount } = await this.model.deleteOne({ _id: id });
+  async delete(filter: RootQuerySelector<Todo>) {
+    const deletedCount = await this.todoRepository.delete(filter);
 
     return deletedCount;
   }
 }
 
-const todoService = new TodoService(TodoModel);
+const todoService = new TodoService(todoRepository);
 
 export { todoService };

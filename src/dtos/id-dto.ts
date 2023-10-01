@@ -1,9 +1,9 @@
 import Joi from "joi";
 
 export class IdDto {
-  public static Schema() {
+  public static Schema(key = "id") {
     return Joi.object({
-      id: Joi.string().trim().required(),
+      [key]: Joi.string().trim().required(),
     });
   }
 }
