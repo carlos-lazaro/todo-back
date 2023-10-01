@@ -6,7 +6,7 @@ export class PaginationDto {
 
   constructor(dependencies?: { page?: string; limit?: string }) {
     this.page = dependencies?.page ? Number(dependencies.page) : 1;
-    this.limit = dependencies?.limit ? Number(dependencies.limit) : 1;
+    this.limit = dependencies?.limit ? Number(dependencies.limit) : 10;
   }
 
   mongoosePipeline() {
